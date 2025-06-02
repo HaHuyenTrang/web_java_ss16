@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Trip List</title>
+</head>
+<body>
+<h1>Danh sách chuyến xe</h1>
+
+<form method="get" action="/home">
+  Điểm đi: <input type="text" name="departure" th:value="${departure}" />
+  Điểm đến: <input type="text" name="destination" th:value="${destination}" />
+  <button type="submit">Tìm kiếm</button>
+</form>
+
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Điểm đi</th>
+    <th>Điểm đến</th>
+    <th>Ngày đi</th>
+  </tr>
+  <tr th:each="trip : ${trips}">
+    <td th:text="${trip.id}"></td>
+    <td th:text="${trip.departure}"></td>
+    <td th:text="${trip.destination}"></td>
+    <td th:text="${trip.date}"></td>
+  </tr>
+</table>
+
+<div>
+    <span th:if="${totalPages > 1}">
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a th:href="@{'/home'(departure=${departure}, destination=${destination}, page=${i})}"
+               th:text="${i}"
+               th:style="${i == currentPage ? 'font-weight: bold;' : ''}">Page</a>
+        </span>
+    </span>
+</div>
+</body>
+</html>
